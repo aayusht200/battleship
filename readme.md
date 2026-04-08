@@ -1,140 +1,235 @@
-# ⚙️ Webpack + Biome Template
+# Battleship Project – Execution Checklist
 
-A **modern, minimal Webpack boilerplate** for front-end development — preconfigured with **Biome** for formatting and linting, and ready for **GitHub Pages deployment** using automated npm scripts.
+## How to Use This
 
----
-
-## 🧱 Folder Structure
-
-```
-project/
-├── src/
-│   ├── index.js
-│   ├── style.css
-│   └── template.html
-├── dist/
-├── webpack.dev.js
-├── webpack.prod.js
-├── package.json
-├── biome.json
-└── .gitignore
-```
+Follow this strictly in order. Do not skip steps. Do not jump ahead.
 
 ---
 
-## ⚙️ Setup Instructions
+# Phase 0 – Setup
 
-### 1️⃣ Initialize Project
+### ✅ Tasks
 
-Install all dependencies:
-
-```bash
-npm run setup
-```
-
----
-
-### 2️⃣ Start Development Server
-
-```bash
-npm start
-```
-
-* Runs Webpack Dev Server with live reload.
-* Default mode: development with `eval-source-map`.
+* [ ] Initialize project (Vite or basic setup)
+* [ ] Install Jest
+* [ ] Configure Jest
+* [ ] Verify Jest runs with a dummy test
 
 ---
 
-### 3️⃣ Build for Production
+# Phase 1 – Ship Module
 
-```bash
-npm run build
-```
+## Step 1: Write Tests First
 
-* Creates an optimized, minified build in `/dist`.
+* [ ] Test that a ship initializes correctly
+* [ ] Test that `hit()` increases hit count
+* [ ] Test that `isSunk()` returns false initially
+* [ ] Test that `isSunk()` returns true when hits = length
 
----
+## Step 2: Implement Ship
 
-### 4️⃣ Lint & Format Code
+* [ ] Add length property
+* [ ] Add hit tracking
+* [ ] Implement `hit()`
+* [ ] Implement `isSunk()`
 
-```bash
-npm run lint-format
-```
+## Done When:
 
-Biome automatically:
-
-* ✅ Auto-sorts imports
-* ✅ Enforces linting and code quality
-* ✅ Maintains consistent formatting across JS, CSS, and HTML
+* [ ] All Ship tests pass
 
 ---
 
-### 5️⃣ Deploy to GitHub Pages
+# Phase 2 – Gameboard Module
 
-#### 🔹Deployment
+## Step 1: Plan Before Coding
 
-```bash
-npm run deploy
-```
-recomended to reset before redeploy
-**Workflow:**
-
-1. Creates the `gh-pages` branch if it doesn’t exist.
-2. Merges `main` into `gh-pages`.
-3. Builds `/dist` and commits it temporarily.
-4. Pushes `/dist` subtree to `gh-pages`.
-5. Returns to `main` and removes `/dist`.
+* [ ] Decide grid structure (2D array recommended)
+* [ ] Decide how ships will be stored
+* [ ] Decide how to track missed attacks
 
 ---
 
-#### 🔹 Reset gh-pages branch
+## Step 2: Write Tests
 
-```bash
-npm run reset
-```
-***deletes remote and local gh-pages branch***
+### Ship Placement
 
----
+* [ ] Test placing a ship at valid coordinates
+* [ ] Test preventing invalid placement (optional early)
 
-#### 🔹 Enable GitHub Pages
+### Attacks
 
-1. Go to **Settings → Pages** in your GitHub repository.
-2. Source: **Deploy from branch**
-3. Branch: `gh-pages`, Folder: `/ (root)`
-4. Save — your site will be live in a few minutes. 🎉
+* [ ] Test hit detection
+* [ ] Test miss detection
+* [ ] Test recording missed attacks
 
----
+### Edge Cases
 
-## 🧩 Tech Stack
+* [ ] Test repeated attack on same coordinate
 
-| Tool                     | Purpose                                      |
-| ------------------------ | -------------------------------------------- |
-| **Webpack 5**            | Module bundler for modern JS apps            |
-| **Biome 2.3.4**          | Fast formatter, linter, and import organizer |
-| **HTML Webpack Plugin**  | Generates HTML with bundled scripts          |
-| **CSS & Style Loaders**  | Handles CSS imports and injection            |
-| **Clean Webpack Plugin** | Cleans `/dist` before each build             |
-| **ES Modules**           | Fully ESM-based configuration                |
+### Game State
+
+* [ ] Test all ships sunk condition
 
 ---
 
-## 🗂️ .gitignore
+## Step 3: Implement Gameboard
 
-```
-node_modules/
-dist/
-.DS_Store
-package-lock.json
-webpack.dev.js
-webpack.prod.js
-```
+* [ ] Create grid structure
+* [ ] Implement ship placement
+* [ ] Implement attack handling
+* [ ] Store missed shots
+* [ ] Implement win condition check
+
+## Done When:
+
+* [ ] All Gameboard tests pass
+* [ ] No duplicate attacks allowed
 
 ---
 
-## 🧰 Notes
+# Phase 3 – Player Module
 
-* Supports **development** and **production** environments.
-* Uses **ESM imports** (`import/export` syntax).
-* Automatically cleans `dist/` on each build.
-* Biome ensures code consistency and speed in place of Prettier + ESLint.
-* **Deployment workflow is fully automated** — first deploy and redeploy handled via npm scripts.
+## Step 1: Write Tests
+
+* [ ] Player has a gameboard
+* [ ] Player can attack opponent board
+* [ ] Computer generates valid moves
+* [ ] Computer does not repeat moves
+
+---
+
+## Step 2: Implement Player
+
+* [ ] Create player factory/class
+* [ ] Attach gameboard
+* [ ] Implement attack method
+* [ ] Add computer move logic
+* [ ] Track previous moves
+
+## Done When:
+
+* [ ] Player tests pass
+* [ ] Computer avoids duplicate moves
+
+---
+
+# Phase 4 – Game Controller
+
+## Step 1: Plan
+
+* [ ] Where will turn logic live? (Answer: here)
+* [ ] How will players be initialized?
+* [ ] How will game end be detected?
+
+---
+
+## Step 2: Implement
+
+* [ ] Initialize two players
+* [ ] Track current turn
+* [ ] Implement attack flow
+* [ ] Switch turns after each move
+* [ ] Detect winner
+
+## Done When:
+
+* [ ] Turns alternate correctly
+* [ ] Game stops when finished
+
+---
+
+# Phase 5 – DOM Module (UI)
+
+## Step 1: Structure UI
+
+* [ ] Create basic HTML layout
+* [ ] Two boards (player + enemy)
+
+---
+
+## Step 2: Rendering
+
+* [ ] Render grid from gameboard data
+* [ ] Show hits and misses
+
+---
+
+## Step 3: Interaction
+
+* [ ] Add click listeners to enemy board
+* [ ] Send coordinates to controller
+* [ ] Re-render after each move
+
+## Rules:
+
+* [ ] No game logic inside DOM module
+
+---
+
+# Phase 6 – Game Initialization
+
+* [ ] Create players
+* [ ] Pre-place ships (hardcoded)
+* [ ] Render initial boards
+
+---
+
+# Phase 7 – Gameplay Loop
+
+* [ ] Player clicks enemy grid
+* [ ] Attack is processed
+* [ ] Board updates
+* [ ] Turn switches
+* [ ] UI updates
+
+---
+
+# Phase 8 – Computer Logic
+
+* [ ] Generate random coordinates
+* [ ] Prevent duplicate moves
+* [ ] Execute move automatically
+
+---
+
+# Phase 9 – Game End
+
+* [ ] Detect when all ships are sunk
+* [ ] Stop further input
+* [ ] Display winner
+
+---
+
+# Phase 10 – Ship Placement (Later)
+
+* [ ] Add manual placement OR
+* [ ] Add random placement button
+
+---
+
+# Final Checklist (Definition of Done)
+
+* [ ] All tests pass
+* [ ] No console.log debugging
+* [ ] No duplicate attacks
+* [ ] Turns work correctly
+* [ ] Game ends properly
+* [ ] UI reflects actual game state
+* [ ] Logic and UI are fully separated
+
+---
+
+# Discipline Rules
+
+* Do not skip tests
+* Do not mix DOM with logic
+* Do not jump phases
+* Fix issues immediately before moving forward
+
+---
+
+# Your Next Step
+
+👉 Start Phase 1: Ship tests
+
+Do not write implementation yet.
