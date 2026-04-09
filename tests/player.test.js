@@ -1,2 +1,29 @@
 const Player = require('../src/player');
-it('exist', () => {});
+const gameBoard = require('../src/gameboard');
+const Ship = require('../src/ship');
+it('player can attack enemy board', () => {
+    const player = new Player();
+    const enemyBoard = new gameBoard();
+    const ship = new Ship(1);
+
+    enemyBoard.placeShip(ship, 0, 0);
+
+    player.attack(enemyBoard, 0, 0);
+    expect(ship.isSunk()).toBe(true);
+});
+
+it('player has its own gameboard', () => {
+    const player = new Player();
+
+    expect(player.board).toBeDefined();
+});
+
+it('computer makes move', () => {
+    const player = new Player('player');
+    const computer = new Player('computer');
+    const ship = new Ship(1);
+    player.board.placeShip(ship, 0, 0);
+    computer.makeMove(player.board);
+
+    expect(player.board.attacked.length).toBe(1);
+});
