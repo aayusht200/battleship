@@ -1,18 +1,12 @@
 const gameBoard = require('./gameboard');
 
 class Player {
-    constructor(role) {
+    constructor() {
         this.board = new gameBoard();
-        this.role = role;
     }
-    attack(board, x, y) {
-        board.receiveAttack(x, y);
-    }
-    makeMove(board) {
-        if (this.role === 'player') return;
-        let x = Math.floor(Math.random() * 10) + 1;
-        let y = Math.floor(Math.random() * 10) + 1;
-        this.attack(board, x, y);
+    attack(board, coords) {
+        const [i, j] = coords;
+        return board.receiveAttack(i, j);
     }
 }
 

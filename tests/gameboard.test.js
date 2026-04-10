@@ -55,8 +55,7 @@ it('does not allow attacking the same cell twice', () => {
     board.placeShip(ship, 0, 0);
 
     board.receiveAttack(0, 0);
-    board.receiveAttack(0, 0);
 
     // ship should only be hit once
-    expect(ship.isSunk()).toBe(true);
+    expect(board.receiveAttack(0, 0)).toBe('invalid move');
 });

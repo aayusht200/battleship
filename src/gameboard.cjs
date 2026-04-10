@@ -22,13 +22,16 @@ class gameBoard {
     }
     receiveAttack(i, j) {
         const alreadyAttacked = this.attacked.some(([x, y]) => x === i && y === j);
-        if (alreadyAttacked) return;
+        if (alreadyAttacked) return 'invalid';
+        this.attacked.push([i, j]);
+
         if (this.board[i][j] !== null) {
             this.board[i][j].hit();
+            return 'hit';
         } else {
             this.missedShots.push([i, j]);
+            return 'miss';
         }
-        this.attacked.push([i, j]);
     }
     areAllShipsSunk() {
         return this.ships.every((ship) => ship.isSunk());

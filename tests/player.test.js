@@ -17,13 +17,3 @@ it('player has its own gameboard', () => {
 
     expect(player.board).toBeDefined();
 });
-
-it('computer makes move', () => {
-    const player = new Player('player');
-    const computer = new Player('computer');
-    const ship = new Ship(1);
-    player.board.placeShip(ship, 0, 0);
-    computer.makeMove(player.board);
-
-    expect(player.board.attacked.length).toBe(1);
-});
