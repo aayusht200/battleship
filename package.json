@@ -17,7 +17,10 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@babel/core": "^7.29.0",
+        "@babel/preset-env": "^7.29.2",
         "@biomejs/biome": "2.3.4",
+        "babel-jest": "^30.3.0",
         "clean-webpack-plugin": "^4.0.0",
         "css-loader": "^7.1.2",
         "html-loader": "^5.1.0",
@@ -30,5 +33,11 @@
     },
     "dependencies": {
         "crypto-browserify": "^3.12.1"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "transform": {
+            "^.+\\.js$": "babel-jest"
+        }
     }
 }

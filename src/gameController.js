@@ -1,33 +1,46 @@
-const Player = require('./player');
-class gameController {
+import Player from './player.js';
+
+export default class GameController {
     constructor() {
         this.player = new Player();
         this.computer = new Player();
         this.currentPlayer = this.player;
     }
+
     playTurn(coord) {
-        let attacker = this.currentPlayer === this.player ? this.player : this.computer;
-        let defender = attacker === this.player ? this.computer : this.player;
+        const attacker = this.currentPlayer;
+        const defender = attacker === this.player ? this.computer : this.player;
+
         if (attacker !== this.player) {
-            coord = this.getRandomCoord(defender.attacked);
+            coord = this.getRandomCoord(defender.board.attacked);
         }
-        let result = attacker.attack(defender.board, coord);
+
+        const result = attacker.attack(defender.board, coord);
+
         if (result === 'hit') {
-            if (defender.areAllShipsSunk()) {
-                if (attacker === this.player) return 'player wins';
-                else return 'computer wins';
+            if (defender.board.areAllShipsSunk()) {
+                return attacker === this.player ? 'player wins' : 'computer wins';
             }
         }
+
         if (result === 'miss') {
             this.currentPlayer = defender;
-            return result;
         }
+
         return result;
     }
+
     getRandomCoord(attackedArray) {
-        let result = [];
-        for (let i = 0; i < 10; i++) for (let j = 0; j < 10; j++) result.push([i, j]);
-        let filterArr = result.filter(([x, y]) => !attackedArray.some(([i, j]) => i === x && j === y));
-        return filterArr[Math.floor(Math.random() * filterArr.length)];
+        const allCoords = [];
+
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                allCoords.push([i, j]);
+            }
+        }
+
+        const available = allCoords.filter(([x, y]) => !attackedArray.some(([i, j]) => i === x && j === y));
+
+        return available[Math.floor(Math.random() * available.length)];
     }
 }

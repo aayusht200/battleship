@@ -1,12 +1,11 @@
-const gameBoard = require('./gameboard');
+import GameBoard from './gameboard.js';
 
-class Player {
+export default class Player {
     constructor() {
-        this.board = new gameBoard();
+        this.board = new GameBoard();
     }
+
     attack(board, coords) {
         return board.receiveAttack(coords[0], coords[1]);
     }
 }
-
-module.exports = Player;

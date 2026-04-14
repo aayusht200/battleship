@@ -1,5 +1,5 @@
-const gameBoard = require('../src/gameboard');
-const Ship = require('../src/ship');
+import gameBoard from '../src/gameboard.js';
+import Ship from '../src/ship.js';
 describe('GameBoard', () => {
     describe('initialization', () => {
         it('creates a game board instance', () => {

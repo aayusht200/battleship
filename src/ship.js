@@ -1,15 +1,14 @@
-class Ship {
+export default class Ship {
     constructor(health) {
         this.health = health;
         this.hitCount = 0;
     }
+
     hit() {
         if (!this.isSunk()) this.hitCount++;
     }
+
     isSunk() {
-        if (this.hitCount >= this.health) return true;
-        return false;
+        return this.hitCount >= this.health;
     }
 }
-
-module.exports = Ship;

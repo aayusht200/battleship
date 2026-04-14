@@ -1,6 +1,6 @@
-const Player = require('../src/player');
+import Player from '../src/player.js';
 
-const Ship = require('../src/ship');
+import Ship from '../src/ship.js';
 describe('Player', () => {
     describe('Initalization', () => {
         it('Initalize player object with board', () => {
