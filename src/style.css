@@ -15,10 +15,26 @@ body {
     justify-content: center;
     align-items: center;
 }
-.grid-container {
+#gameContainer {
     border: 1px solid;
+    width: 90vw;
+    height: 100vh;
     display: grid;
-    width: 400px;
-    height: 400px;
-    grid-template-columns: repeat(10, 10%);
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.gameGrid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    border: 1px solid;
+    height: 80vh;
+}
+.gameGrid button {
+    background-color: aliceblue;
+}
+.miss {
+    background-color: grey !important;
+}
+.hit {
+    background-color: red !important;
 }

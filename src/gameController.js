@@ -8,18 +8,28 @@ export default class GameController {
     }
 
     playTurn(coord) {
-        const attacker = this.currentPlayer;
-        const defender = attacker === this.player ? this.computer : this.player;
+        let result = this._game(coord);
+        if (result === 'miss' && this.currentPlayer === this.computer) {
+            let compResult;
+            do {
+                const compCoord = this.getRandomCoord(this.player.board.attacked);
+                compResult = this._game(compCoord);
+            } while (this.currentPlayer === this.computer && compResult === 'hit');
 
-        if (attacker !== this.player) {
-            coord = this.getRandomCoord(defender.board.attacked);
+            return compResult;
         }
 
-        const result = attacker.attack(defender.board, coord);
+        return result;
+    }
+
+    _game(coord) {
+        const defender = this.currentPlayer === this.player ? this.computer : this.player;
+
+        const result = this.currentPlayer.attack(defender.board, coord);
 
         if (result === 'hit') {
             if (defender.board.areAllShipsSunk()) {
-                return attacker === this.player ? 'player wins' : 'computer wins';
+                return this.currentPlayer === this.player ? 'player wins' : 'computer wins';
             }
         }
 
