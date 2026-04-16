@@ -27,7 +27,10 @@ body {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     border: 1px solid;
-    height: 80vh;
+    height: 400px;
+    width: 400px;
+    align-self: center;
+    justify-self: center;
 }
 .gameGrid button {
     background-color: aliceblue;
@@ -37,4 +40,11 @@ body {
 }
 .hit {
     background-color: red !important;
+}
+
+.disable {
+    pointer-events: none;
+}
+.player-ships {
+    background-color: aqua !important;
 }

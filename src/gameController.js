@@ -14,9 +14,10 @@ export default class GameController {
             do {
                 const compCoord = this.getRandomCoord(this.player.board.attacked);
                 compResult = this._game(compCoord);
+                if (compResult === 'player wins' || compResult === 'computer wins') {
+                    return compResult;
+                }
             } while (this.currentPlayer === this.computer && compResult === 'hit');
-
-            return compResult;
         }
 
         return result;
@@ -40,7 +41,7 @@ export default class GameController {
         return result;
     }
 
-    getRandomCoord(attackedArray) {
+    getRandomCoord(arr) {
         const allCoords = [];
 
         for (let i = 0; i < 10; i++) {
@@ -49,8 +50,44 @@ export default class GameController {
             }
         }
 
-        const available = allCoords.filter(([x, y]) => !attackedArray.some(([i, j]) => i === x && j === y));
+        const available = allCoords.filter(([x, y]) => !arr.some(([i, j]) => i === x && j === y));
 
         return available[Math.floor(Math.random() * available.length)];
+    }
+    randomPlaceShip(shipList, role) {
+        const listCopy = [...shipList];
+        let flag = shipList.length;
+        if (role === 'player') {
+            while (flag > 0 && listCopy.length > 0) {
+                const coord = this.getRandomCoord(this.player.board.ships);
+                if (
+                    this.player.board.placeShip(
+                        listCopy[0],
+                        coord[0],
+                        coord[1],
+                        Math.random() < 0.5 ? 'horizontal' : 'vertical'
+                    )
+                ) {
+                    flag--;
+                    listCopy.shift();
+                }
+            }
+        }
+        if (role === 'computer') {
+            while (flag > 0 && listCopy.length > 0) {
+                const coord = this.getRandomCoord(this.computer.board.ships);
+                if (
+                    this.computer.board.placeShip(
+                        listCopy[0],
+                        coord[0],
+                        coord[1],
+                        Math.random() < 0.5 ? 'horizontal' : 'vertical'
+                    )
+                ) {
+                    flag--;
+                    listCopy.shift();
+                }
+            }
+        }
     }
 }
