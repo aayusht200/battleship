@@ -12,15 +12,19 @@ export default class GameController {
     playTurn(coord) {
         if (this.status === 'over') return;
 
-        let result = this._game(coord);
+        const result = this._game(coord);
 
+        // stop immediately if player wins
+        if (this.status === 'over') return;
+
+        // computer only plays after player miss
         if (result === 'miss' && this.currentPlayer === this.computer) {
             let compResult;
 
             do {
                 const compCoord = this.getRandomCoord(this.player.board.attacked);
                 compResult = this._game(compCoord);
-            } while (this.currentPlayer === this.computer && compResult === 'hit');
+            } while (this.status !== 'over' && this.currentPlayer === this.computer && compResult === 'hit');
         }
     }
 
