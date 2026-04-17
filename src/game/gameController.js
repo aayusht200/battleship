@@ -5,22 +5,23 @@ export default class GameController {
         this.player = new Player();
         this.computer = new Player();
         this.currentPlayer = this.player;
+        this.status = 'ongoing';
+        this.winner = null;
     }
 
     playTurn(coord) {
+        if (this.status === 'over') return;
+
         let result = this._game(coord);
+
         if (result === 'miss' && this.currentPlayer === this.computer) {
             let compResult;
+
             do {
                 const compCoord = this.getRandomCoord(this.player.board.attacked);
                 compResult = this._game(compCoord);
-                if (compResult === 'player wins' || compResult === 'computer wins') {
-                    return compResult;
-                }
             } while (this.currentPlayer === this.computer && compResult === 'hit');
         }
-
-        return result;
     }
 
     _game(coord) {
@@ -30,7 +31,10 @@ export default class GameController {
 
         if (result === 'hit') {
             if (defender.board.areAllShipsSunk()) {
-                return this.currentPlayer === this.player ? 'player wins' : 'computer wins';
+                this.status = 'over';
+                this.winner = this.currentPlayer === this.player ? 'player' : 'computer';
+
+                return `${this.winner} wins`;
             }
         }
 
@@ -54,40 +58,30 @@ export default class GameController {
 
         return available[Math.floor(Math.random() * available.length)];
     }
+
     randomPlaceShip(shipList, role) {
         const listCopy = [...shipList];
         let flag = shipList.length;
-        if (role === 'player') {
-            while (flag > 0 && listCopy.length > 0) {
-                const coord = this.getRandomCoord(this.player.board.ships);
-                if (
-                    this.player.board.placeShip(
-                        listCopy[0],
-                        coord[0],
-                        coord[1],
-                        Math.random() < 0.5 ? 'horizontal' : 'vertical'
-                    )
-                ) {
-                    flag--;
-                    listCopy.shift();
-                }
+
+        const board = role === 'player' ? this.player.board : this.computer.board;
+
+        while (flag > 0 && listCopy.length > 0) {
+            const coord = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+
+            if (board.placeShip(listCopy[0], coord[0], coord[1], Math.random() < 0.5 ? 'horizontal' : 'vertical')) {
+                flag--;
+                listCopy.shift();
             }
         }
-        if (role === 'computer') {
-            while (flag > 0 && listCopy.length > 0) {
-                const coord = this.getRandomCoord(this.computer.board.ships);
-                if (
-                    this.computer.board.placeShip(
-                        listCopy[0],
-                        coord[0],
-                        coord[1],
-                        Math.random() < 0.5 ? 'horizontal' : 'vertical'
-                    )
-                ) {
-                    flag--;
-                    listCopy.shift();
-                }
-            }
-        }
+    }
+
+    getState() {
+        return {
+            playerBoard: this.player.board.board,
+            computerBoard: this.computer.board.board,
+            playerAttacked: this.player.board.attacked,
+            computerAttacked: this.computer.board.attacked,
+            state: { status: this.status, winner: this.winner },
+        };
     }
 }
