@@ -1,235 +1,116 @@
-# Battleship Project – Execution Checklist
+# Battleship
 
-## How to Use This
+A browser-based implementation of the classic Battleship game built with **modular JavaScript**, **Vite**, and **separated game state architecture**.
 
-Follow this strictly in order. Do not skip steps. Do not jump ahead.
-
----
-
-# Phase 0 – Setup
-
-### ✅ Tasks
-
-* [ ] Initialize project (Vite or basic setup)
-* [ ] Install Jest
-* [ ] Configure Jest
-* [ ] Verify Jest runs with a dummy test
+This project was built as part of **The Odin Project – JavaScript curriculum**, with a strong focus on **test-driven development, modular design, and clean separation of concerns**.
 
 ---
 
-# Phase 1 – Ship Module
+## Features
 
-## Step 1: Write Tests First
-
-* [ ] Test that a ship initializes correctly
-* [ ] Test that `hit()` increases hit count
-* [ ] Test that `isSunk()` returns false initially
-* [ ] Test that `isSunk()` returns true when hits = length
-
-## Step 2: Implement Ship
-
-* [ ] Add length property
-* [ ] Add hit tracking
-* [ ] Implement `hit()`
-* [ ] Implement `isSunk()`
-
-## Done When:
-
-* [ ] All Ship tests pass
+- Turn-based Battleship gameplay
+- Random ship placement for player and computer
+- Computer auto-turn logic
+- Hit / miss state rendering
+- Win detection
+- Reset game functionality
+- Rearrange ships functionality
+- Fully separated UI and game logic layers
+- Controller-driven state updates
+- Event delegation for board interaction
 
 ---
 
-# Phase 2 – Gameboard Module
+## Tech Stack
 
-## Step 1: Plan Before Coding
-
-* [ ] Decide grid structure (2D array recommended)
-* [ ] Decide how ships will be stored
-* [ ] Decide how to track missed attacks
-
----
-
-## Step 2: Write Tests
-
-### Ship Placement
-
-* [ ] Test placing a ship at valid coordinates
-* [ ] Test preventing invalid placement (optional early)
-
-### Attacks
-
-* [ ] Test hit detection
-* [ ] Test miss detection
-* [ ] Test recording missed attacks
-
-### Edge Cases
-
-* [ ] Test repeated attack on same coordinate
-
-### Game State
-
-* [ ] Test all ships sunk condition
+- JavaScript (ES Modules)
+- HTML / CSS
+- Vite
+- Jest
 
 ---
 
-## Step 3: Implement Gameboard
+## Project Structure
 
-* [ ] Create grid structure
-* [ ] Implement ship placement
-* [ ] Implement attack handling
-* [ ] Store missed shots
-* [ ] Implement win condition check
-
-## Done When:
-
-* [ ] All Gameboard tests pass
-* [ ] No duplicate attacks allowed
-
----
-
-# Phase 3 – Player Module
-
-## Step 1: Write Tests
-
-* [ ] Player has a gameboard
-* [ ] Player can attack opponent board
-* [ ] Computer generates valid moves
-* [ ] Computer does not repeat moves
+```txt
+src/
+│
+├── game/
+│   ├── ship.js
+│   ├── gameBoard.js
+│   ├── player.js
+│   └── gameController.js
+│
+├── ui/
+│   ├── render.js
+│   ├── renderBoard.js
+│   └── renderStatus.js
+│
+├── index.js
+└── style.css
+```
 
 ---
 
-## Step 2: Implement Player
+## Architecture
 
-* [ ] Create player factory/class
-* [ ] Attach gameboard
-* [ ] Implement attack method
-* [ ] Add computer move logic
-* [ ] Track previous moves
+The project follows a **controller-based state architecture**.
 
-## Done When:
+### Game Logic Layer
+Responsible for all business logic.
 
-* [ ] Player tests pass
-* [ ] Computer avoids duplicate moves
+- `ship.js` → ship health + sunk state
+- `gameBoard.js` → board state + attacks + placement
+- `player.js` → player attack interface
+- `gameController.js` → turns, win logic, game flow
 
----
+### UI Layer
+Responsible only for rendering.
 
-# Phase 4 – Game Controller
+- `render.js` → page composition
+- `renderBoard.js` → board grid UI
+- `renderStatus.js` → game status + controls
 
-## Step 1: Plan
+The UI never directly mutates game state.
 
-* [ ] Where will turn logic live? (Answer: here)
-* [ ] How will players be initialized?
-* [ ] How will game end be detected?
-
----
-
-## Step 2: Implement
-
-* [ ] Initialize two players
-* [ ] Track current turn
-* [ ] Implement attack flow
-* [ ] Switch turns after each move
-* [ ] Detect winner
-
-## Done When:
-
-* [ ] Turns alternate correctly
-* [ ] Game stops when finished
+All state changes go through the controller.
 
 ---
 
-# Phase 5 – DOM Module (UI)
+## Key Learnings
 
-## Step 1: Structure UI
+This project focused heavily on:
 
-* [ ] Create basic HTML layout
-* [ ] Two boards (player + enemy)
+- test-driven development
+- modular JavaScript architecture
+- DOM rendering patterns
+- event delegation
+- object reference debugging
+- state-driven UI updates
 
----
-
-## Step 2: Rendering
-
-* [ ] Render grid from gameboard data
-* [ ] Show hits and misses
-
----
-
-## Step 3: Interaction
-
-* [ ] Add click listeners to enemy board
-* [ ] Send coordinates to controller
-* [ ] Re-render after each move
-
-## Rules:
-
-* [ ] No game logic inside DOM module
+A major debugging challenge solved during development was a **shared object reference issue**, where both player and computer boards were accidentally using the same ship instances.
 
 ---
 
-# Phase 6 – Game Initialization
+## How to Run
 
-* [ ] Create players
-* [ ] Pre-place ships (hardcoded)
-* [ ] Render initial boards
-
----
-
-# Phase 7 – Gameplay Loop
-
-* [ ] Player clicks enemy grid
-* [ ] Attack is processed
-* [ ] Board updates
-* [ ] Turn switches
-* [ ] UI updates
+```bash
+npm install
+npm run dev
+```
 
 ---
 
-# Phase 8 – Computer Logic
+## Future Improvements
 
-* [ ] Generate random coordinates
-* [ ] Prevent duplicate moves
-* [ ] Execute move automatically
-
----
-
-# Phase 9 – Game End
-
-* [ ] Detect when all ships are sunk
-* [ ] Stop further input
-* [ ] Display winner
+- Manual ship placement
+- Smarter computer AI
+- Mobile responsiveness
+- Animations / transitions
+- Game history / move tracker
 
 ---
 
-# Phase 10 – Ship Placement (Later)
+## Author
 
-* [ ] Add manual placement OR
-* [ ] Add random placement button
-
----
-
-# Final Checklist (Definition of Done)
-
-* [ ] All tests pass
-* [ ] No console.log debugging
-* [ ] No duplicate attacks
-* [ ] Turns work correctly
-* [ ] Game ends properly
-* [ ] UI reflects actual game state
-* [ ] Logic and UI are fully separated
-
----
-
-# Discipline Rules
-
-* Do not skip tests
-* Do not mix DOM with logic
-* Do not jump phases
-* Fix issues immediately before moving forward
-
----
-
-# Your Next Step
-
-👉 Start Phase 1: Ship tests
-
-Do not write implementation yet.
+Built by **Aayush**
