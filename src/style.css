@@ -71,28 +71,43 @@ body {
 /* =========================
    STATUS BAR
 ========================= */
+/* =========================
+   STATUS BAR
+========================= */
 .status-area {
     grid-column: 1 / 3;
 
     display: flex;
     justify-content: center;
     margin-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.status-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    text-transform: capitalize;
 }
 
 .status-text {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    text-transform: capitalize;
 }
 
-.status-text > button {
-    padding: 0.3rem;
+.instruction-text {
+    opacity: 0.8;
+    font-size: 1rem;
+}
+
+.reset-btn {
+    padding: 0.3rem 0.6rem;
     border-radius: 0.6rem;
     cursor: pointer;
     background-color: rgb(169, 215, 255);
+    border: 0.5px solid;
 }
-
 /* =========================
    CELL STATES
 ========================= */
